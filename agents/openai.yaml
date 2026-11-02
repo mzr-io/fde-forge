@@ -1,0 +1,6 @@
+interface:
+  display_name: "FDE Forge"
+  short_description: "Interview, assess and develop FDE capability"
+  default_prompt: "Use the FDE Forge skill. Start an adaptive initial assessment. Ask one question at a time and evaluate my demonstrated FDE capabilities."
+policy:
+  allow_implicit_invocation: false

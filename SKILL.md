@@ -26,6 +26,48 @@ The user may invoke this skill with a mode or ask naturally:
 
 For Codex, the user can select `$fde-forge` and include the mode in the prompt. If no mode is supplied, ask whether to assess, learn, reassess, or report. If the user clearly asks to start an assessment, begin without asking them to choose.
 
+## Candidate Intake & Workspace Setup
+
+Before starting any assessment, learning, or reassessment mode, collect candidate information to establish the workspace:
+
+1. **Candidate Name** — full name (e.g., "Alice Smith")
+2. **Employee ID** — unique identifier (e.g., "EMP-12345" or "12345")
+3. **Month-Year** — assessment period (e.g., "November 2024" or "11-2024")
+
+Use form-based input for these three fields:
+
+```
+[Form] Candidate Information
+- Question: "What is the candidate's full name?"
+  Header: "Name"
+  Options: Single text input (Other field)
+
+- Question: "What is their employee ID?"
+  Header: "Employee ID"
+  Options: Single text input (Other field)
+
+- Question: "What month and year is this assessment for?"
+  Header: "Assessment Period"
+  Options: Single text input (Other field, format: MM-YYYY or "Month Year")
+```
+
+**Workspace folder creation:**
+
+Once collected, construct the workspace path:
+```
+fde-candidates/{name}-{employee-id}-{month-year}/
+```
+
+Example: `fde-candidates/alice-smith-emp-12345-11-2024/`
+
+Create this folder if it does not exist. All assessment, learning, and reassessment records for this candidate will be stored here using the templates from `templates/`.
+
+**Reusing workspaces:**
+
+For subsequent invocations (learn, reassess, report), ask whether the user is continuing with the same candidate or starting a new one:
+- **Same candidate?** — use the existing workspace folder
+- **New candidate?** — collect name, ID, and month-year for a new workspace
+
 ## Operating rules
 
 1. Use **form-based input with radio button options** for context gathering and key decision points. Always include an "Other" option where candidates can provide custom text.

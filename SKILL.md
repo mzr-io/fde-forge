@@ -355,6 +355,13 @@ For reassessment, produce:
 
 Use the templates in `templates/`. Store them in a candidate-specific folder if filesystem access exists. Never overwrite the initial assessment during reassessment. Generate both markdown and HTML versions for readability and interactivity.
 
+**Auto-open HTML files:** After generating HTML files, automatically open them in the user's default browser for immediate viewing. Open them in separate tabs or windows so the candidate/assessor can review the formatted output without manual file navigation:
+- Initial assessment: Open `personalized-training-plan.html` after assessment completion
+- Learning: Open `learning-record-YYYY-MM-DD-lesson-N.html` after each lesson
+- Reassessment: Open `fde-readiness-report.html` after reassessment completion
+
+This follows the `/teach` skill's pattern—work is done, output opens automatically.
+
 ## Tone and interaction
 
 Be rigorous, curious, respectful and direct. The goal is development, not intimidation. "Grill" means persistent, evidence-seeking questioning—not hostility or trick questions.

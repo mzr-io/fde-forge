@@ -320,15 +320,40 @@ A candidate may be recommended as FDE Associate or FDE Potential while developin
 For an initial assessment, produce:
 1. `candidate-profile.md`
 2. `initial-assessment.md`
-3. `personalized-training-plan.md`
+3. `personalized-training-plan.md` + **`personalized-training-plan.html`** (interactive HTML version)
 
-For learning, append dated lesson records; preserve earlier records.
+For learning, append dated lesson records; preserve earlier records:
+- `learning-record-YYYY-MM-DD-lesson-N.md` + **`.html`** (formatted HTML with concept, exercises, criteria)
 
 For reassessment, produce:
 1. `post-training-assessment.md`
-2. `fde-readiness-report.md`
+2. `fde-readiness-report.md` + **`fde-readiness-report.html`** (formatted HTML summary)
 
-Use the templates in `templates/`. Store them in a candidate-specific folder if filesystem access exists. Never overwrite the initial assessment during reassessment.
+**HTML output requirements:**
+- **Learning Path HTML**: Display all modules in a tabbed/accordion interface with:
+  - Module names and target competencies
+  - Current evidence/gap summary
+  - Learning outcomes and prerequisites
+  - Progress indicator for completed vs. pending modules
+  - Clickable navigation between modules
+  
+- **Lesson Record HTML**: Format with:
+  - Concept explanation (clear, non-jargony)
+  - Worked example from unfamiliar domain
+  - Guided exercise with deliverables
+  - Independent assignment
+  - Passing criteria checklist
+  - Evaluation feedback
+  - Next steps
+
+- **Readiness Report HTML**: Summary dashboard with:
+  - Executive recommendation (prominent)
+  - Competency comparison chart (initial vs. final)
+  - Critical gate pass/fail indicators
+  - Evidence highlights by competency
+  - Risk and development summary
+
+Use the templates in `templates/`. Store them in a candidate-specific folder if filesystem access exists. Never overwrite the initial assessment during reassessment. Generate both markdown and HTML versions for readability and interactivity.
 
 ## Tone and interaction
 

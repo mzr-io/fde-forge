@@ -38,11 +38,11 @@ Use form-based input for these three fields:
 
 ```
 [Form] Candidate Information
-- Question: "What is the candidate's full name?"
+- Question: "What is your name?"
   Header: "Name"
   Options: Single text input (Other field)
 
-- Question: "What is their employee ID?"
+- Question: "What is your employee ID?"
   Header: "Employee ID"
   Options: Single text input (Other field)
 

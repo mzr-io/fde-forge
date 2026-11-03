@@ -2,7 +2,7 @@
 
 A portable Agent Skill for identifying FDE potential, conducting adaptive interviews, generating personalized learning paths, teaching competency gaps, and reassessing readiness.
 
-Built on the open Agent Skills folder convention: a skill directory containing `SKILL.md` plus optional references, templates and metadata.
+Built on the open Agent Skills convention. The repository root contains `SKILL.md`, with supporting references, templates and agent metadata.
 
 ## Package contents
 
@@ -41,76 +41,65 @@ fde-forge/
 
 If the host does not expose a slash/$ command picker, ask the agent: "Read and follow the fde-forge skill. Start the [assessment/learning/reassessment/report] mode."
 
-## Install
+## Install with the standard `npx skills` CLI (recommended)
 
-### Option A — Automated user-level installation (macOS/Linux)
+The standard Agent Skills CLI installs this skill into Claude Code, Codex, and other supported agents. The current CLI package requires Node.js 22.20 or later.
 
-Unzip the package, enter the extracted `fde-forge` directory, then run:
+### From this extracted folder
+
+Run from the directory containing the `fde-forge` folder:
 
 ```bash
-chmod +x install/install.sh
-./install/install.sh --claude
-./install/install.sh --codex
-./install/install.sh --both
+npx skills add ./fde-forge
 ```
 
-This installs for the current user across projects:
-- Claude Code: `~/.claude/skills/fde-forge/`
-- Codex: `~/.agents/skills/fde-forge/`
+Install globally for your user and target Claude Code + Codex explicitly:
 
-Use `--project` to install into the current directory's project scope:
 ```bash
-./install/install.sh --claude --project
-./install/install.sh --codex --project
-./install/install.sh --both --project
+npx skills add ./fde-forge --global --agent claude-code --agent codex
 ```
 
-The installer makes a timestamped backup if the destination already exists. It does not remove unrelated skills.
+### From GitHub (recommended for sharing and updates)
 
-### Option B — Manual user-level installation
+After uploading the contents of this package to a public GitHub repository, install with:
 
-Copy the entire `fde-forge` folder to:
-
-**Claude Code**
-```text
-~/.claude/skills/fde-forge/
+```bash
+npx skills add <github-owner>/<github-repository> --global --agent claude-code --agent codex
 ```
 
-**Codex**
-```text
-~/.agents/skills/fde-forge/
+Replace the placeholders with the actual GitHub owner and repository. The repository root must contain `SKILL.md` directly. Once installed from GitHub, update with:
+
+```bash
+npx skills update fde-forge
 ```
 
-### Option C — Manual project-level installation
+### Project-level installation
 
-Copy the folder into your repository:
+Run the local or GitHub install command without `--global` from your project directory. The skill will be installed in the project scope and can be shared with the project team.
 
-**Claude Code**
-```text
-<project>/.claude/skills/fde-forge/
+### Select one agent only
+
+```bash
+npx skills add ./fde-forge --global --agent claude-code
+npx skills add ./fde-forge --global --agent codex
 ```
 
-**Codex**
-```text
-<project>/.agents/skills/fde-forge/
+### Check installation
+
+```bash
+npx skills list
 ```
 
-Keep `SKILL.md` directly inside the `fde-forge` directory.
+The older `install/install.sh` script is retained as an optional manual installer for users who do not want to use the Skills CLI.
 
 ## Activate
 
-### Claude Code
-Restart/reload the session if needed, then run:
-```text
-/fde-forge assess
-```
+After installation, restart or reload the agent if needed. Then ask it to use **FDE Forge** or invoke the skill from the agent's skill picker. The skill supports these modes:
 
-### Codex
-Restart Codex if the skill does not appear, then invoke:
-```text
-$fde-forge assess
-```
-Or use the skill picker (`/skills`) and select `fde-forge`.
+- `assess` — initial adaptive FDE potential assessment
+- `learn` — personalized learning and training
+- `reassess` — post-training practical assessment
+- `report` — progress and readiness report
 
 ## First-run workflow
 
@@ -139,5 +128,5 @@ The skill asks the agent to preserve records in a candidate workspace. It does n
 Designed for the portable Agent Skills convention and includes Codex UI metadata. Claude Code and Codex use different discovery locations; the installer places the same skill folder in the appropriate directory.
 
 Official guidance:
-- Claude Code skills: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
-- Codex skills: https://learn.chatgpt.com/docs/build-skills
+- Skills CLI: https://skills.sh/docs/cli
+- Skills CLI source and command reference: https://github.com/vercel-labs/skills

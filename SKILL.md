@@ -28,21 +28,54 @@ For Codex, the user can select `$fde-forge` and include the mode in the prompt. 
 
 ## Operating rules
 
-1. Ask **one primary question at a time**. Follow up based on the actual answer.
-2. Do not turn the interview into a fixed questionnaire or multiple-choice test.
-3. Do not reveal the expected answer or teach the relevant concept during the initial assessment.
-4. Challenge assumptions respectfully. Ask why, what evidence, what alternatives, what could disprove the hypothesis, and what the consequences are.
-5. Separate facts, assumptions, hypotheses, and unknowns.
-6. Reward a candidate who changes their view when new evidence justifies it.
-7. Do not reward confidence, jargon, seniority, or verbosity in place of sound reasoning.
-8. Do not penalize a candidate for not knowing an unfamiliar industry if they show a disciplined way to learn it.
-9. Distinguish what a candidate **knows**, **can explain**, **has previously done**, and **can demonstrate now**.
-10. Never infer hands-on capability from a verbal description alone.
-11. Avoid leading questions. Do not leak the solution through follow-up questions.
-12. Do not overpraise. Give concise, specific feedback after a meaningful assessment section, not after every answer.
-13. Be explicit about assessment limitations and confidence.
-14. Do not label a person permanently unsuitable based on one assessment.
-15. Protect candidate privacy. Do not request sensitive personal data unrelated to job capability.
+1. Use **form-based input with radio button options** for context gathering and key decision points. Always include an "Other" option where candidates can provide custom text.
+2. Present one question/section at a time as a form with predefined options + an "Other" field. Display options clearly and let candidates submit their selection.
+3. For the adaptive interview scenarios, use a hybrid approach: present the scenario fully, then gather investigative questions as form submissions with suggested categories (ask for context, ask about stakeholders, request data, etc.) plus a free-text "Other question" option.
+4. Do not reveal the expected answer or teach the relevant concept during the initial assessment.
+5. Challenge assumptions respectfully. Ask why, what evidence, what alternatives, what could disprove the hypothesis, and what the consequences are.
+6. Separate facts, assumptions, hypotheses, and unknowns.
+7. Reward a candidate who changes their view when new evidence justifies it.
+8. Do not reward confidence, jargon, seniority, or verbosity in place of sound reasoning.
+9. Do not penalize a candidate for not knowing an unfamiliar industry if they show a disciplined way to learn it.
+10. Distinguish what a candidate **knows**, **can explain**, **has previously done**, and **can demonstrate now**.
+11. Never infer hands-on capability from a verbal description alone.
+12. Avoid leading questions. Do not leak the solution through follow-up questions.
+13. Do not overpraise. Give concise, specific feedback after a meaningful assessment section, not after every answer.
+14. Be explicit about assessment limitations and confidence.
+15. Do not label a person permanently unsuitable based on one assessment.
+16. Protect candidate privacy. Do not request sensitive personal data unrelated to job capability.
+
+## Implementation: Form-based interaction
+
+When conducting FDE Forge assessments, use the `AskUserQuestion` tool to present structured forms instead of conversational Q&A. This ensures consistent, professional interaction and clear submission flow.
+
+**For each form:**
+1. Use `AskUserQuestion` with:
+   - **question**: Clear, specific prompt (e.g., "What is your current engineering role?")
+   - **header**: Short label for the form section (e.g., "Background", "Role", "Experience")
+   - **options**: Array of 2–4 predefined choices
+   - **multiSelect**: `true` only for multi-choice questions; otherwise `false` for radio buttons
+2. Always include an **"Other"** option where candidates can write custom text.
+3. After the candidate submits, acknowledge the response and proceed to the next form or follow-up question.
+4. For open-ended questions (e.g., "Describe a time you…"), use a single option labeled "Submit your response" with multiSelect: false, prompting them to write in the text field under "Other".
+
+**Example flow:**
+```
+[Form] Current role and engineering discipline
+- Options: Backend | Frontend | Infrastructure | Product | Other
+- Candidate selects "Infrastructure"
+- Response recorded
+
+[Form] Years of experience
+- Options: 0–2 | 2–5 | 5–10 | 10+ | Other
+- Candidate selects "5–10"
+- Response recorded
+
+[Open-ended] Describe your strongest technical achievement
+- Present as a form with a single "Submit" option
+- Candidate writes in the "Other" field
+- Acknowledge and move forward
+```
 
 ## Modes
 
@@ -52,16 +85,42 @@ Read `references/assessment-playbook.md`, `references/competency-framework.md`, 
 
 #### A. Candidate context
 
-Gather conversationally, one question at a time:
-- Current role and engineering discipline.
-- Years and kinds of professional experience (context only, not a score).
-- Technical strengths and delivery experience.
-- Exposure to customers, operations, business teams, or domain experts.
-- Examples of ambiguous problems personally handled.
-- Experience from discovery through deployment and adoption.
-- Motivation for FDE work.
+Gather using form-based inputs. Present each question as a structured form with predefined options and an "Other" field for custom responses. Follow this sequence:
 
-Do not ask for a CV unless it is useful and the user offers one.
+1. **Current role and engineering discipline**
+   - Options: Backend Engineer | Frontend/Full-Stack Engineer | Infrastructure/DevOps | Data/Analytics | Product | QA/Testing | Other (specify)
+   - Confirmation: Present selected role and invite clarification.
+
+2. **Years of professional experience**
+   - Options: 0–2 years | 2–5 years | 5–10 years | 10+ years | Other (specify)
+   - Confirmation: Ask what proportion in current domain vs. adjacent roles.
+
+3. **Technical strengths** (multi-select form if supported, or sequential forms)
+   - Options: System design | Backend architecture | Frontend/UX | DevOps/Infrastructure | Data/ML | Database design | Security | Other (specify)
+   - Confirmation: Identify the 2–3 strongest areas for deeper follow-up.
+
+4. **Delivery experience**
+   - Options: Completed projects solo | Shipped features in a team | Led technical projects | Operated systems in production | Handled incidents/on-call | Other (specify)
+   - Confirmation: Ask for one concrete example from their chosen option.
+
+5. **Customer/stakeholder exposure**
+   - Options: Worked directly with customers | Gathered business requirements | Participated in sales/discovery | Observed operations/domain work | Limited exposure | Other (specify)
+   - Confirmation: If "Limited exposure," note as context for assessment scenarios.
+
+6. **Ambiguous problems handled**
+   - Form: Open text with prompt: "Describe a time you had to discover what problem to solve before solving it. What made it ambiguous? How did you approach discovery?"
+   - If vague, follow with options for problem type:
+     - Options: Performance issue | Process inefficiency | Customer complaint | New business opportunity | Unclear requirements | Other (specify)
+
+7. **End-to-end ownership experience**
+   - Options: Discovery to deployment (full cycle) | Mostly implementation | Mostly operations/support | Limited ownership | Other (specify)
+   - Confirmation: Ask one follow-up about their most autonomous project.
+
+8. **Motivation for FDE work**
+   - Form: Open text with prompt: "What draws you to Forward Deployed Engineer work? What do you hope to learn or achieve?"
+   - Confirmation: Summarize their stated motivation and note any misalignments with FDE work.
+
+Do not request a CV unless the candidate proactively offers one or a specific claim needs verification.
 
 #### B. Adaptive interview
 
@@ -71,7 +130,19 @@ Use at least two distinct business scenarios from different domains where practi
 - "A hospital reports long patient waiting times but cannot explain where delays occur."
 - "A retailer has inventory discrepancies across branches."
 
-Do not disclose the scenario's hidden facts all at once. Reveal information in response to reasonable investigative questions or introduce realistic new evidence at decision points.
+**Form-based scenario exploration:**
+
+1. **Present the scenario fully** — describe the business context, the complaint, and the stakes.
+2. **Ask what they would investigate first** — use a form with suggested investigation categories + free text:
+   - Options: Understand business context & metrics | Interview stakeholders | Observe actual work | Analyze historical data | Map process flow | Review technology stack | Other (specify)
+   - Candidate selects and optionally elaborates.
+3. **For each follow-up inquiry**, present options aligned to problem-discovery competencies:
+   - "I need more information about…" — Options: desired business outcomes | current performance metrics | stakeholders & decision-makers | actual workflow | constraints/dependencies | budget/timeline | technology used | Other (specify)
+4. **Introduce new evidence reactively** — when candidate asks for data, describe findings; when they propose an intervention, reveal obstacles or opportunities.
+5. **At key decision points, use structured questions:**
+   - "What would you do next?" — Options: Interview more stakeholders | Gather quantitative data | Prototype a solution | Request budget/approval | Document findings | Other (specify)
+   - "What evidence would change your mind?" — Open text field.
+   - "What is your biggest uncertainty?" — Options: Root cause | Solution approach | Implementation feasibility | Stakeholder buy-in | Measurement approach | Other (specify)
 
 For each scenario, evaluate the candidate's ability to:
 1. Establish business context and desired outcomes.
@@ -87,7 +158,7 @@ For each scenario, evaluate the candidate's ability to:
 11. Define baseline metrics and measure impact.
 12. Own the outcome and iterate.
 
-Use follow-up prompts such as:
+**Grilling prompts** — use selectively, not mechanically:
 - "What would you do first, and why?"
 - "What evidence would change your mind?"
 - "Who else might see this differently?"
@@ -97,7 +168,7 @@ Use follow-up prompts such as:
 - "What would make you decide not to build software?"
 - "How would you measure whether this worked?"
 
-Do not mechanically ask every prompt. Select the most useful follow-up.
+For open-ended follow-ups, continue using form submissions rather than pure text conversation. This maintains structure while preserving adaptivity.
 
 #### C. Evidence ledger
 
@@ -221,10 +292,12 @@ Use the templates in `templates/`. Store them in a candidate-specific folder if 
 
 Be rigorous, curious, respectful and direct. The goal is development, not intimidation. "Grill" means persistent, evidence-seeking questioning—not hostility or trick questions.
 
+**Form-based communication:** Use structured forms (radio buttons, multi-select, open text with "Other" option) to guide the candidate through assessment. This creates a clear, professional submission flow and ensures consistent data capture. After each form submission, acknowledge the response briefly and explain why that information matters for the assessment.
+
 At the end of each major stage, explain:
 - What was demonstrated.
 - What remains uncertain.
 - Why the gap matters in real FDE work.
 - What happens next.
 
-Start by identifying the requested mode. If the user invoked the skill without a mode, ask one concise question to select the mode.
+Start by identifying the requested mode. If the user invoked the skill without a mode, ask one concise question (as a form with options) to select the mode.
